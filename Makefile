@@ -3,7 +3,7 @@
 # project subdirectory.
 #
 
-PROJECT_NAME := foobar
+PROJECT_NAME := esp-mqtt-switch
 
 include $(IDF_PATH)/make/project.mk
 
