@@ -47,7 +47,7 @@ static void app_mqtt_on_event_cb(esp_mqtt_event_handle_t event)
 
             break;
         case MQTT_EVENT_DISCONNECTED:
-            ESP_LOGI(TAG, "MQTT_EVENT_DISCONNECTED");
+            ESP_LOGI(TAG, "MQTT_EVENT_DISCONNECTED. Retrying");
             app_mqtt_connected = false;
             break;
 
@@ -132,6 +132,9 @@ void app_mqtt_setup()
         .lwt_msg = app_mqtt_config->topic_availability.payload_false,
         .lwt_qos = app_mqtt_config->lwt_qos,
         .lwt_retain = app_mqtt_config->lwt_retain,
+        .keepalive = APP_MQTT_KEEPALIVE,
+        .disable_auto_reconnect = false,
+        .reconnect_timeout_ms = APP_MQTT_RECONNECT_TIMEOUT_MS,
     };
     app_mqtt_client = esp_mqtt_client_init(&client_conf);
 
@@ -140,11 +143,13 @@ void app_mqtt_setup()
 
 void app_mqtt_up()
 {
+    ESP_LOGI(TAG, "Going up..");
     ESP_ERROR_CHECK(esp_mqtt_client_start(app_mqtt_client));
 }
 
 void app_mqtt_down()
 {
+    ESP_LOGI(TAG, "Going down..");
     ESP_ERROR_CHECK(esp_mqtt_client_stop(app_mqtt_client));
     app_mqtt_connected = false;
 }

@@ -145,6 +145,7 @@ void app_wifi_sta_up()
     ESP_LOGI(TAG, "STA Starting...");
 
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
+    ESP_ERROR_CHECK(esp_wifi_set_protocol(ESP_IF_WIFI_STA, WIFI_PROTOCOL_11B));
     ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_STA, &app_wifi_sta_config));
     ESP_ERROR_CHECK(esp_wifi_start());
 
@@ -183,6 +184,7 @@ void app_wifi_ap_up()
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_APSTA));
     ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_AP, &app_wifi_ap_config));
     ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_STA, &app_wifi_sta_config));
+
     ESP_ERROR_CHECK(esp_wifi_start());
 
     ESP_LOGI(TAG, "esp_wifi_start finished");
